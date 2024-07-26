@@ -7,18 +7,7 @@
 ``` source .env/bin/activate ```
 
 
-# How to start frontend server Vuejs3 CLI
-
-- Make sure u first `cd` into frontend directory first
-``` cd /home/daci/vscodez/mad2/project/frontend ```
-
-- Run the VueJs CLI Frontend..
-``` npm run dev ```
-
-- The web-page will be servered on localhost port 3000.
-
-
-# How to start backend server Flask App for API calls.
+# How to start Flask App.
 
 - Install all the dependices needed in order to run this project
 - All the required modules are in requirements.txt file
