@@ -1,0 +1,26 @@
+body {
+  background: linear-gradient(to right, #ee9a46, #3bd5e6);
+}
+
+
+.book-image {
+  width: 100%;
+  /* Set the width to 100% to make it responsive within the card */
+  height: 320px;
+  /* Adjust the height as needed */
+  object-fit: cover;
+  /* Maintain aspect ratio and cover the entire space within the card */
+}
+
+#book-content {
+  color: green;
+  font-size: 30px;
+  /* Adjust the font size as needed */
+  line-height: 2.5;
+  /* Adjust the line height for better readability */
+  font-weight: bold;
+  /* Make the text bold */
+  text-align: center;
+  /* Center the text if desired */
+  white-space: pre-line;
+}
