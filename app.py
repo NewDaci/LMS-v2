@@ -13,17 +13,23 @@ from flask_security.utils import hash_password
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
-
+from flask_caching import Cache
 
 
 app = Flask(__name__)
 api = Api(app)
 bcrypt = Bcrypt(app)
-
 CORS(app)
 
 app.secret_key = b'verysecretpass'
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///books.sqlite3"
+
+# flask caching
+app.config['DEBUG'] = True
+app.config['CACHE_TYPE'] = 'RedisCache'
+app.config['CACHE_DEFAULT_TIMEOUT'] = 200  #seconds i.e 3mins 20 seconds
+app.config['CACHE_REDIS_PORT'] = 6379
+
 
 # flask security
 app.config['SECRET_KEY'] = 'super-secret'
@@ -38,10 +44,10 @@ app.config['JWT_TOKEN_LOCATION'] = ['headers']
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)  # Tokens will expire in 1 hour
 
 
-
 # JWT Initialization
 jwt = JWTManager(app)
 
+cache = Cache(app)
 db = SQLAlchemy()
 db.init_app(app)
 app.app_context().push()
@@ -60,9 +66,15 @@ def add_admin():
 def hello_world():
     return render_template("index.html")
 
+
+
+# @app.route("/cache")
+# @cache.cached(timeout=10)
+# def cachee():
+#     return jsonify(datetime.now())
+
 from controllers.api.user import *
 from controllers.api.book_api import *
-from controllers.books import *
 from controllers.api.admin import *
 from controllers.api.issuebook import *
 from controllers.api.requests import *

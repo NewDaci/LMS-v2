@@ -50,7 +50,7 @@ const Section = {
                     <h1 class="fw-bold text-uppercase">{{ s.name }}</h1>
                   </a>
                   <h5>{{ s.description }}</h5>
-                  <p>No. of Books in this section : <span class="fw-bold">{{ count }}</span></p>
+                  <p>No. of Books in this section : <span class="fw-bold">{{ s.count }}</span></p>
                   <p>Date added: {{ s.date_created }}</p>
                 </div>
                 <div class="col-6 d-flex justify-content-end align-items-center">

@@ -1,9 +1,9 @@
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource, fields, marshal, marshal_with
 from controllers.rbac import role_required
-from flask import jsonify
+from flask import jsonify, make_response
 from models.model import Book, Sections
-from app import db, app, api
+from app import db, app, api, cache
 
 
 #marshalling
@@ -32,12 +32,14 @@ class SectionAPI(Resource):
     @jwt_required()
     @role_required("librarian")
     def get(self):
-        sec = Sections.query.all()
-        return marshal(sec, sec_fields), 200
+        sections = Sections.query.all()
+        sec_data = [{'name': sec.name, 'id': sec.id,'date_created': sec.date_created.strftime("%Y-%m-%d"),'description': sec.description, 'count': len(Book.query.filter_by(section=sec.id).all())} for sec in sections]
+        return make_response(jsonify(sec_data), 200)
 
 
 class UserSectionAPI(Resource):
     @jwt_required()
+    @cache.cached(timeout=120)
     def get(self):
         sec = Sections.query.all()
         return marshal(sec, sec_fields), 200

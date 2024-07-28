@@ -1,6 +1,6 @@
 from flask import jsonify
 from flask_jwt_extended import jwt_required
-from app import api,app, db
+from app import api,app, db, cache
 from flask_restful import Resource
 from flask import make_response, jsonify
 from models.model import Book, Sections, Book_req, Feedback, Messages, Status, User, Enrollments, Rating
@@ -16,6 +16,7 @@ from controllers.rbac import role_required
 class AdminDashboard(Resource):
     @jwt_required()
     @role_required("librarian")
+    @cache.cached(timeout=60)
     def get(self):
         books = Book.query.count()
         users = User.query.count()

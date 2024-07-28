@@ -1,8 +1,8 @@
-from app import api,app, db
+from app import api,app, db, cache
 from flask_restful import Resource
 from flask import make_response, jsonify, request
 from controllers.rbac import role_required
-from models.model import Book, Sections, Book_req, Feedback, Messages, Status
+from models.model import Book, Sections, Book_req, Feedback, Messages, Status, User, Enrollments
 from flask_restful import fields, marshal, marshal_with
 from werkzeug.exceptions import HTTPException
 from flask_restful import reqparse
@@ -52,6 +52,7 @@ class BookAPI(Resource):
     
     # @jwt_required()
     # @role_required("librarian")
+    @cache.cached(timeout=120)
     def get(self, book_name=None):
 
         if book_name is not None:
@@ -213,7 +214,50 @@ class BookAPI(Resource):
             raise BookNotFound(status_code=500, error_message="Error updating book: " + str(e))
     
     
+class MyBookAPI(Resource):
+    
+    @jwt_required()
+    def get(self):
+        curr_date = date.today()
+        user = get_jwt_identity()
+        user_id = User.query.filter_by(id=user['id']).first()
+
+        enrolls = Enrollments.query.filter_by(user_id=user_id.id).all()
+        valid_books = []
+        not_valid = []
+        for i in enrolls:
+            book_data = {
+                'id': i.book.id,
+                'enroll_id': i.id,
+                'name': i.book.name,
+                'author_name': i.book.author_name,
+                'content': i.book.content,
+                'issue_date': i.issue_date.strftime("%Y-%m-%d"),
+                'return_date': i.return_date.strftime("%Y-%m-%d")
+            }
+            if curr_date < i.return_date:
+                valid_books.append(book_data)
+            else:
+                not_valid.append(book_data)
+
+        comp_books = Status.query.filter_by(user_id=user_id.id).all()
+        books = []
+        for i in comp_books:
+            book = Book.query.get(i.book_id)
+            books.append({
+                'id': book.id,
+                'name': book.name,
+                'author_name': book.author_name,
+                'content': book.content
+            })
+        return jsonify({
+            'valid_books': valid_books,
+            'revoked_books': not_valid,
+            'completed_books': books,
+            'curr_date': curr_date
+        })
 
 
 
 api.add_resource(BookAPI, '/api/book', '/api/book/<book_name>', '/api/book/<int:book_id>')
+api.add_resource(MyBookAPI, '/api/my-book')

@@ -1,5 +1,5 @@
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from app import app, db, bcrypt, api
+from app import app, db, bcrypt, api, cache
 from controllers.rbac import role_required
 from models.model import User, Enrollments, Book, Sections, Messages, Book_req, Status
 from flask import session, request, jsonify, redirect, make_response
@@ -61,6 +61,7 @@ def message_to_dict(message):
 
 class ProfileResource(Resource):
     @jwt_required()
+    # @cache.cached(timeout=100)
     def get(self):
         try:
             # Extract the user ID from the JWT
