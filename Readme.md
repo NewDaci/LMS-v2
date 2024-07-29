@@ -7,7 +7,7 @@
 ``` source .env/bin/activate ```
 
 
-# How to start backend server Flask App for API calls.
+# Start Flask App.
 
 - Install all the dependices needed in order to run this project
 - All the required modules are in requirements.txt file
@@ -28,8 +28,25 @@
 - To stop the service, use:
 ``` sudo systemctl stop redis-stack-server ```
 
-<hr>
 
 # Flask Cache
 - 2 mins cache timeout set for User ~ Home, Explore, Category
 - 1 mins cache timeout set for Librarian ~ Dashboard
+
+
+# Celery
+- To run celery workers:
+* Make sure *Redis Server * is up and running
+``` celery -A controllers.celery.workers.celery  worker --loglevel=INFO ```
+
+
+- To run celery workers and call task within command line:
+* Make sure *Redis Server * is up and running
+
+``` celery -A controllers.celery.workers.celery call controllers.celery.tasks.call_every_day --kwargs='{"name":"ranjit"}' ```
+
+- To run celery beat:
+* Make sure *Redis Server * is up and running
+``` celery -A controllers.celery.workers.celery beat --max-interval 1 -l info ```
+- --max-interval: The beat will check for incoming tasks every 1 second interval.
+- -l info: For logging info on the terminal.
