@@ -1,4 +1,5 @@
 from app import db
+from datetime import datetime
 
 class Book(db.Model):
     __tablename__ = "book"
@@ -34,8 +35,19 @@ class User(db.Model):
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
     role = db.Column(db.String, nullable=False)
+    last_visit_date = db.Column(db.Date)
+
 
     enrollments = db.relationship("Enrollments", back_populates="user")
+
+# to update the last_visit_data column in the user database
+def record_daily_visit(user_id):
+    user = User.query.get(user_id)
+    today = datetime.now()
+    
+    if user.last_visit_date != today:
+        user.last_visit_date = today
+        db.session.commit()
 
 
 class Enrollments(db.Model):

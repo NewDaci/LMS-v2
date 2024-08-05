@@ -7,7 +7,7 @@ from werkzeug.exceptions import HTTPException
 from flask_restful import reqparse
 from datetime import date
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-from models.model import User, Feedback, Status, Enrollments, Messages, Book_req
+from models.model import User, record_daily_visit, Status, Enrollments, Messages, Book_req
 from sqlalchemy.exc import SQLAlchemyError
 import re
 from controllers.rbac import role_required
@@ -22,6 +22,7 @@ class Logiin(Resource):
         user = User.query.filter_by(email=email).first()
         if user:
             if bcrypt.check_password_hash(user.password, password):
+                record_daily_visit(user.id)  # setting the visit to true
                 access_token = create_access_token(identity={'id': user.id, 'role': user.role})
                 return jsonify({'message': "Success! redirecting in 1sec..", 'access_token': access_token, 'role': user.role})
             else:

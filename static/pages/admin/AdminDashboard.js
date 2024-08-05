@@ -2,9 +2,12 @@ const AdminDashboard = {
     template: `
    <div class="container-fluid min-vh-100">
     <div class="d-flex mt-3">
-      <div>
-        <h1> Statistics! </h1>
-      </div>
+        <h1 class="me-auto"> Statistics! </h1>
+        <div class="d-flex justify-content-center align-items-center ms-auto">
+            <span v-if='isWaiting' class="me-2" >Waiting for download...</span>
+            <button class='btn btn-secondary' @click='adminBookReport'>Download Book Report</button>
+            <button class='btn btn-secondary ms-2' @click='adminEnrollsReport'>Download Issue Report</button>
+        </div>
     </div>
         <div class="row mt-1">
             <div class="col-md-3" v-for="stat in stats" :key="stat.title">
@@ -36,7 +39,8 @@ const AdminDashboard = {
             ],
             sections: [],
             books: [],
-            ratings: []
+            ratings: [],
+            isWaiting: false
         };
     },
     mounted() {
@@ -44,6 +48,43 @@ const AdminDashboard = {
     },
 
     methods: {
+        async adminBookReport() {
+            this.isWaiting = true;
+            const res = await fetch("/download-book-report")
+            const data = await res.json();
+            if (res.ok) {
+                const taskId = data["task-id"];
+                const invt = setInterval(async () => {
+                    const csv_res = await fetch(`/get-report/${taskId}`)
+                    if (csv_res.ok) {
+                        this.isWaiting = false
+                        clearInterval(invt)
+                        window.location.href = `/get-report/${taskId}`
+                        alert("Report Downloaded!")
+
+                    }
+                }, 1000)
+            }
+        },
+
+        async adminEnrollsReport() {
+            this.isWaiting = true;
+            const res = await fetch("/download-enroll-report")
+            const data = await res.json();
+            if (res.ok) {
+                const taskId = data["task-id"];
+                const invt = setInterval(async () => {
+                    const csv_res = await fetch(`/get-report/${taskId}`)
+                    if (csv_res.ok) {
+                        this.isWaiting = false
+                        clearInterval(invt)
+                        window.location.href = `/get-report/${taskId}`
+                        alert("Report Downloaded!")
+                        
+                    }
+                }, 1000)
+            }
+        },
 
         async fetchAdminDashboard() {
             const url = "http://localhost:5000/api/admin/dashboard";

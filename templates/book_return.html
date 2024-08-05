@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Library | Reminder - Return Book</title>
+</head>
+
+<body>
+    <h1> <span style="font-size: 25px;">Dear, </span> {{ enroll.user.name }}</h1>
+    <h2>Your <span style="color: red;">RETURN DATE</span> for the book <span style="color: green;">{{enroll.book.name}}</span> is approaching within 2 days.</h2>
+
+    <h3>Book Details</h3>
+    <p>Book ID: {{ enroll.book.id }}</p>
+    <p>Book ISBN No: {{ enroll.book.isbn }}</p>
+    <p>Book Name: {{ enroll.book.name }} </tp>
+    <p>Author: {{ enroll.book.author_name }} </p>
+    <p>Issue Date: {{ enroll.issue_date }} </p>
+    <p>Return Date: {{ enroll.return_date }}</p>
+
+    <h4>Please return it before deadline or apply for RE-ISSUE.</h4>
+
+    <p> Thanks,
+        <br>
+        Ranjeet
+    </p>
+</body>
+
+</html>

@@ -37,16 +37,20 @@
 # Celery
 - To run celery workers:
 * Make sure *Redis Server * is up and running
-``` celery -A controllers.celery.workers.celery  worker --loglevel=INFO ```
+``` celery -A controllers.jobs.workers.celery  worker --loglevel=INFO ```
 
 
 - To run celery workers and call task within command line:
 * Make sure *Redis Server * is up and running
 
-``` celery -A controllers.celery.workers.celery call controllers.celery.tasks.call_every_day --kwargs='{"name":"ranjit"}' ```
+``` celery -A controllers.jobs.workers.celery call controllers.celery.tasks.call_every_day --kwargs='{"name":"ranjit"}' ```
 
 - To run celery beat:
 * Make sure *Redis Server * is up and running
-``` celery -A controllers.celery.workers.celery beat --max-interval 1 -l info ```
+``` celery -A controllers.jobs.workers.celery beat --max-interval 1 -l info ```
 - --max-interval: The beat will check for incoming tasks every 1 second interval.
 - -l info: For logging info on the terminal.
+
+
+# Mail Hog
+- Use ``` ~/go/bin/MailHog ``` in order to start the smtp server
