@@ -35,7 +35,9 @@ const AllBooks = {
                         </div>
                         <div class="mb-3">
                           <label for="book-section" class="col-form-label">Section:</label>
-                          <input type="text" class="form-control" v-model="newbook['sections.name']">
+                          <select class="form-control" v-model="newbook.section_name">
+                            <option v-for="section in sections" :key="section.name" :value="section.name">{{ section.name }}</option>
+                          </select>
                         </div>
                         <div class="mb-3">
                           <label for="book-language" class="col-form-label">Language:</label>
@@ -190,20 +192,23 @@ const AllBooks = {
     return {
       datas: [],
       newbook: {
-        "isbn": "23",
-        "name": "as",
-        "author_name": "sa",
-        "language": "Hindi",
-        "sections.name": "General",
-        "content": "sd",
+        "isbn": "",
+        "name": "",
+        "author_name": "",
+        "language": "English",
+        "section_name": "General",
+        "content": "",
       },
+      sections: []
     };
   },
   mounted() {
     this.fetchBooks();
   },
   methods: {
+
     async fetchBooks() {
+      
       try {
         const token = localStorage.getItem("access_token");
         if (token) {
@@ -216,6 +221,7 @@ const AllBooks = {
           const result = await response.json()
           if (response.ok) {
             this.datas = result.books;
+            this.sections = result.secs;
           } else {
             console.error("Error while fetching")
           }
@@ -302,6 +308,14 @@ const AllBooks = {
           const modalInstance = bootstrap.Modal.getInstance(modal);
           modalInstance.hide();
           this.fetchBooks();
+          this.newbook = {
+            isbn: "",
+            name: "",
+            author_name: "",
+            language: "English",
+            section_name: "General", 
+            content: "",
+          };
 
         } else {
           alert(result.error_message || "Failed to Add the book.");

@@ -159,7 +159,7 @@ const Mybooks = {
             <td>{{ book.name }}</td>
             <td>{{ book.author_name }}</td>
             <td>
-              <a @click="downPDF(book.content, book.name)" class="btn btn-success">Download</a>
+              <router-link :to="{ name: 'Download', params: { content: book.content, name: book.name } }" class="btn btn-success">Download</router-link>
             </td>
           </tr>
         </tbody>

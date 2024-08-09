@@ -52,6 +52,22 @@ class Enrolls(Resource):
             return jsonify({"msg": "Error while revoking enrollment", "error": str(e)}), 500
 
 
+class AutoRevokeAPI(Resource):
+   
+    @jwt_required()
+    @role_required("librarian")
+    def delete(self):
+        try:
+            enrolls = Enrollments.query.all()
+            for i in enrolls:
+                if date.today() > i.return_date:
+                    db.session.delete(i)
+            db.session.commit()
+            return make_response(jsonify({"msg": "Auto revoked enrollments Successfully!."}), 200)
+        except Exception as e:
+            return jsonify({"msg": "Error while revoking enrollments", "error": str(e)}), 500
+
+
 
 
 class UserEnrolls(Resource):
@@ -153,3 +169,4 @@ api.add_resource(Enrolls, "/api/admin/revoke", "/api/admin/revoke/<int:enroll_id
 api.add_resource(Return, "/api/return")
 api.add_resource(ReIssue, "/api/re-issue")
 api.add_resource(UserEnrolls, "/api/admin/enroll/<int:user_id>")
+api.add_resource(AutoRevokeAPI, "/api/admin/auto-revoke")

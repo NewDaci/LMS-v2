@@ -153,6 +153,8 @@ const Profile = {
                 </div>
             </div>
         </div>
+        <button @click='userBookReport(user.id)' class="btn btn-secondary ms-2">Download Report</button>
+          <span v-if='isWaiting' class="ms-2">Waiting for download...</span>
     </div>
 </div>
 `,
@@ -160,6 +162,7 @@ const Profile = {
     return {
       user: "",
       books: [],
+      isWaiting: false,
       total_books: 0,
       updatedUser: {
         name: "",
@@ -188,6 +191,25 @@ const Profile = {
       const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return re.test(email);
     },
+
+    async userBookReport(id) {
+      this.isWaiting = true;
+      const res = await fetch(`/download-user-report/${id}`)
+      const data = await res.json();
+      if (res.ok) {
+          const taskId = data["task-id"];
+          const invt = setInterval(async () => {
+              const csv_res = await fetch(`/get-report/${taskId}`)
+              if (csv_res.ok) {
+                  this.isWaiting = false
+                  clearInterval(invt)
+                  window.location.href = `/get-report/${taskId}`
+                  alert("Report Downloaded!")
+
+              }
+          }, 1000)
+      }
+  },
 
     async fetchProfile() {
       this.feedback="";

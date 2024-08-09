@@ -176,26 +176,26 @@ const Section = {
       sec: [],
 
       newsec: {
-        "name": "as",
-        "description": "sa",
+        "name": "",
+        "description": "",
       },
 
       newbook: {
-        "isbn": "23",
-        "name": "as",
-        "author_name": "sa",
-        "language": "Hindi",
+        "isbn": "",
+        "name": "",
+        "author_name": "",
+        "language": "English",
         "section_name": "",
-        "content": "sd",
+        "content": "",
       },
     };
   },
   mounted() {
     this.fetchSection();
   },
-  methods:{
+  methods: {
 
-    async fetchSection(){
+    async fetchSection() {
       try {
         const token = localStorage.getItem("access_token");
         const response = await fetch("http://localhost:5000/api/admin/section", {
@@ -235,6 +235,10 @@ const Section = {
           const modalInstance = bootstrap.Modal.getInstance(modal);
           modalInstance.hide();
           this.fetchSection();
+          this.newsec = {
+            name: "",
+            description: "",
+          };
 
         } else {
           alert(result.error_message || "Failed to Add the section.");
@@ -247,7 +251,7 @@ const Section = {
     async addBook(s_id) {
       const token = localStorage.getItem("access_token");
       const book = this.newbook;
-      book.section_name = this.sec.find(sec => sec.id === s_id).name; 
+      book.section_name = this.sec.find(sec => sec.id === s_id).name;
       const url = `http://localhost:5000/api/book`;
       try {
         const response = await fetch(url, {
@@ -261,10 +265,18 @@ const Section = {
         const result = await response.json();
         if (response.ok) {
           alert(result.message || "Successfully Added book.");
-          const modal = document.getElementById('addModal'+s_id);
+          const modal = document.getElementById('addModal' + s_id);
           const modalInstance = bootstrap.Modal.getInstance(modal);
           modalInstance.hide();
           this.fetchSection();
+          this.newbook= {
+            "isbn": "",
+            "name": "",
+            "author_name": "",
+            "language": "English",
+            "section_name": "",
+            "content": "",
+          };
 
         } else {
           alert(result.error_message || "Failed to Add the book.");

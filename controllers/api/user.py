@@ -91,7 +91,8 @@ users_fields={
   "id": fields.Integer,
   "name": fields.String,
   "email": fields.String,
-  "role": fields.String
+  "role": fields.String,
+  "last_visit_date": fields.DateTime(dt_format='iso8601')
 }
 
 class Users(Resource):

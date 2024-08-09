@@ -1,0 +1,42 @@
+api.add_resource(AdminDashboard, '/api/admin/dashboard')
+
+api.add_resource(BookAPI, '/api/book', '/api/book/<book_name>', '/api/book/<int:book_id>')
+api.add_resource(MyBookAPI, '/api/my-book')
+api.add_resource(Book_Rating, '/api/rating')
+
+
+api.add_resource(Enrolls, "/api/admin/revoke", "/api/admin/revoke/<int:enroll_id>")
+api.add_resource(Return, "/api/return")
+api.add_resource(ReIssue, "/api/re-issue")
+api.add_resource(UserEnrolls, "/api/admin/enroll/<int:user_id>")
+api.add_resource(AutoRevokeAPI, "/api/admin/auto-revoke")
+
+api.add_resource(IssueBook, "/api/issue-book")
+
+
+api.add_resource(ProfileResource, "/api/profile")
+api.add_resource(UpdateProfileResource, "/api/profile/update")
+api.add_resource(DeleteProfileResource, "/api/profile/delete")
+
+
+api.add_resource(SearchResource, "/api/search")
+api.add_resource(MessageResource, "/api/message")
+api.add_resource(ReadMessageResource, "/api/message/read/<int:id>")
+api.add_resource(PolicyResource, "/api/policy")
+
+
+api.add_resource(Requests, "/api/admin/requests")
+
+api.add_resource(SectionAPIAdmin, '/api/admin/sec', '/api/admin/sec/<section_name>', '/api/admin/sec/<int:section_id>')
+
+
+api.add_resource(SectionAPI, '/api/admin/section')
+api.add_resource(UserSectionAPI, '/api/section')
+api.add_resource(SectionBooksAPI, '/api/section/<int:section_id>')
+api.add_resource(AuthorBooksAPI, '/api/section/<author>')
+api.add_resource(LanguageBooksAPI, '/api/section/language/<language>')
+
+
+api.add_resource(Logiin, '/api/login')
+api.add_resource(Register, '/api/register')
+api.add_resource(Users, '/api/admin/user', '/api/admin/user/<int:user_id>')

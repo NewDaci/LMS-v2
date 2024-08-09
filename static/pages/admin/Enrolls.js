@@ -3,8 +3,10 @@ const Enrolls = {
       <div class="container-fluid vh-100">
         <div class="mt-2">
            
-        
-        <h1 class="fw-bold text-uppercase text-decoration-underline">Enrollments</h1>
+        <div class="me-auto d-flex justify-content-between align-items-center mb-3">
+            <h1 class="fw-bold text-uppercase text-decoration-underline">Enrollments</h1>
+            <a @click='autorevoke' class="btn btn-danger">Auto Revoke</a>
+        </div>
           <table class="table table-striped table-hover">
             <thead class="table-dark">
               <tr>
@@ -85,7 +87,29 @@ const Enrolls = {
             } catch (e) {
                 console.error("Error while fetching", e);
             }
-        }
+        },
+
+        async autorevoke(){
+            try {
+                const token = localStorage.getItem("access_token");
+                const response = await fetch(`http://localhost:5000/api/admin/auto-revoke`, {
+                    method: "DELETE",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": "Bearer " + token,
+                    },
+                });
+                const result = await response.json()
+                if (response.ok) {
+                    alert(result.msg)
+                    this.fetchRequest();
+                } else {
+                    console.error("Error while fetching")
+                }
+            } catch (e) {
+                console.error("Error while fetching", e);
+            }
+        },
     },
 };
 

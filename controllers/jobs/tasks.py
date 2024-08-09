@@ -93,6 +93,35 @@ def monthly_report():
 
 
 @celery.task
+def user_report(id):
+
+    user = User.query.filter_by(id=id).first()
+
+    csv_data = []
+    for enroll in user.enrollments:
+        csv_data.append({
+            'ISBN No.': enroll.book.isbn,
+            'Book Name': enroll.book.name,
+            "Author's Name": enroll.book.author_name,
+            'Section': enroll.book.sections.name,
+            'Language': enroll.book.language,
+            'Rating': enroll.book.rating,
+            'Issued On': enroll.issue_date,
+            'Return Date': enroll.return_date
+            
+        })
+
+    filename="user_report.csv"
+
+    with open(filename, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=['ISBN No.', 'Book Name', "Author's Name",'Section', 'Language', 'Rating', 'Issued On', 'Return Date'])
+        writer.writeheader()
+        writer.writerows(csv_data)
+
+    return filename
+
+
+@celery.task
 def admin_book_report():
 
     books = Book.query.all()

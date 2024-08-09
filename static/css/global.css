@@ -24,3 +24,27 @@ body {
   /* Center the text if desired */
   white-space: pre-line;
 }
+
+.star-rating {
+  display: flex;
+  gap: 10px;
+}
+
+.star {
+  font-size: 4rem;
+  cursor: pointer;
+  color: lightgray;
+  position: relative;
+  display: inline-block;
+}
+
+.star::before {
+  content: "\2605"; /* Unicode star character */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.star.selected::before {
+  color: gold;
+}

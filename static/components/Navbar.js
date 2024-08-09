@@ -44,6 +44,9 @@ const Navbar = {
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
           <ul class="navbar-nav ms-auto">
+          <li v-if="$store.state.isLoggedIn && $store.state.currentUserRole === 'user'" class="nav-item">
+              <router-link class="nav-link bg-secondary me-2" to="/policy">POLICY*</router-link>
+            </li>
           <li v-if="$store.state.isLoggedIn" class="nav-item">
                 <router-link class="nav-link active" to="/profile">Welcome <span v-if="$store.state.currentUserRole === 'librarian'" >Admin~</span> {{ $store.state.currentUser }}!</router-link>
             </li>

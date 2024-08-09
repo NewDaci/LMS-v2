@@ -16,6 +16,8 @@ import Category from "./pages/Category.js";
 import Profile from "./pages/Profile.js";
 import Search from "./pages/Search.js";
 import NotFound from "./components/NotFound.js";
+import Download from "./pages/Download.js";
+import Policy from "./components/Policy.js";
 
 import store from "./store.js";
 
@@ -37,6 +39,9 @@ const routes = [
     { path: "/category", component: Category, meta: { role: "user" } },
     { path: "/profile", component: Profile, meta: { role: "user" } },
     { path: "/search", component: Search, meta: { role: "user" } },
+    { path: "/download", name: "Download", props:true, component: Download, meta: { role: "user" } },
+    { path: "/policy", component: Policy, meta: { role: "user" } },
+
 ];
 
 

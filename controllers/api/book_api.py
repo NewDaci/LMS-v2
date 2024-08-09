@@ -2,7 +2,7 @@ from app import api,app, db, cache
 from flask_restful import Resource
 from flask import make_response, jsonify, request
 from controllers.rbac import role_required
-from models.model import Book, Sections, Book_req, Feedback, Messages, Status, User, Enrollments
+from models.model import Book, Sections, Book_req, Feedback, Messages, Status, User, Enrollments, Rating
 from flask_restful import fields, marshal, marshal_with
 from werkzeug.exceptions import HTTPException
 from flask_restful import reqparse
@@ -23,6 +23,14 @@ book_fields={
   "content": fields.String,
   'date_added': fields.DateTime(dt_format='iso8601'),
   "rating": fields.Integer
+}
+
+# sec_field smarshalling
+sec_fields={
+  "id": fields.Integer,
+  "name": fields.String,
+  'date_created': fields.DateTime(dt_format='iso8601'),
+  "description": fields.String
 }
 
 #book_parser
@@ -52,7 +60,7 @@ class BookAPI(Resource):
     
     # @jwt_required()
     # @role_required("librarian")
-    @cache.cached(timeout=120)
+    # @cache.cached(timeout=120)
     def get(self, book_name=None):
 
         if book_name is not None:
@@ -69,10 +77,15 @@ class BookAPI(Resource):
                 all_books = Book.query.all()
                 latest = Book.query.order_by(Book.date_added.desc()).limit(6).all()
                 trend = Book.query.order_by(Book.rating.desc()).limit(6).all()
+                secs_obj = Sections.query.all()
 
                 books = []
                 for i in all_books:
                     books.append(marshal(i,book_fields))
+
+                secs = []
+                for i in secs_obj:
+                    secs.append(marshal(i,sec_fields))
                 
 
                 latest_books = []
@@ -88,6 +101,7 @@ class BookAPI(Resource):
 
             return {"books":books,
                     "latest":latest_books,
+                    "secs":secs,
                     "trend":trend_books},200
 
 
@@ -259,5 +273,38 @@ class MyBookAPI(Resource):
 
 
 
+class Book_Rating(Resource):
+    
+    @jwt_required()
+    def post(self):
+
+        try:
+            data = request.json
+            book_id = data["book_id"]
+            rate = data["rating"]
+
+            rating_obj = Rating.query.filter_by(book_id=book_id).first()
+           
+
+            if not rating_obj:
+                rat_ob = Rating(book_id=book_id, total=rate, count=1)
+                db.session.add(rat_ob)
+            else:
+                rating = Rating.query.filter_by(book_id=book_id).first()
+                rating.total += rate
+                rating.count += 1
+                db.session.commit()
+
+                book = Book.query.filter_by(id=book_id).first()
+                book.rating = rating.total//rating.count
+
+            db.session.commit()
+        except:
+            raise BookNotFound(status_code=500)
+        return {"message":"Rating submitted successfully."},200
+
+
+
 api.add_resource(BookAPI, '/api/book', '/api/book/<book_name>', '/api/book/<int:book_id>')
 api.add_resource(MyBookAPI, '/api/my-book')
+api.add_resource(Book_Rating, '/api/rating')

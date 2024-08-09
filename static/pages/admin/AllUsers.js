@@ -13,6 +13,7 @@ const AllUsers = {
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Role</th>
+              <th scope="col">Last Active On</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -22,6 +23,7 @@ const AllUsers = {
               <td>{{ user.name }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.role }}</td>
+              <td>{{ user.last_visit_date ? user.last_visit_date : 'Inactive' }}</td>
               <td>
                 <button class="btn btn-primary" data-bs-toggle="modal" :data-bs-target="'#booksModal' + user.id" @click="details(user.id)">Details</button>
 

@@ -101,11 +101,19 @@ def get_report(task_id):
         return make_response(jsonify({"message":"Task Pending please wait..."}), 404)
 
 
+@app.get("/download-user-report/<int:id>")
+def down_user_rep(id):
+
+    job = tasks.user_report.delay(id)
+    return jsonify({"task-id":job.id})
+
+
 @app.get("/download-book-report")
 def down_book_rep():
 
     job = tasks.admin_book_report.delay()
     return jsonify({"task-id":job.id})
+
 
 @app.get("/download-enroll-report")
 def down_enroll_rep():
