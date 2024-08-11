@@ -140,7 +140,9 @@ const AllBooks = {
                         </div>
                         <div class="mb-3">
                           <label for="book-section" class="col-form-label">Section:</label>
-                          <input type="text" class="form-control" v-model="book['sections.name']">
+                          <select class="form-control" v-model="book['sections.name']">
+                            <option v-for="section in sections" :key="section.name" :value="section.name">{{ section.name }}</option>
+                          </select>
                         </div>
                         <div class="mb-3">
                           <label for="book-language" class="col-form-label">Language:</label>

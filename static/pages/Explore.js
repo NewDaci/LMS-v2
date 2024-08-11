@@ -1,6 +1,6 @@
 const Explore = {
   template: `
-      <div class="container-fluid vh-100">
+      <div class="container-fluid min-vh-100">
         <div class="mt-2">
           <h1 class="fw-bold text-uppercase text-decoration-underline">All Books</h1>
           <table class="table table-striped table-hover">

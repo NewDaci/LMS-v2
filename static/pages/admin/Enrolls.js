@@ -1,6 +1,6 @@
 const Enrolls = {
     template: `
-      <div class="container-fluid vh-100">
+      <div class="container-fluid min-vh-100">
         <div class="mt-2">
            
         <div class="me-auto d-flex justify-content-between align-items-center mb-3">

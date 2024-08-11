@@ -96,7 +96,6 @@ def monthly_report():
 def user_report(id):
 
     user = User.query.filter_by(id=id).first()
-
     csv_data = []
     for enroll in user.enrollments:
         csv_data.append({
