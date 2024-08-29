@@ -2,6 +2,15 @@ const Explore = {
   template: `
       <div class="container-fluid min-vh-100">
         <div class="mt-2">
+
+          <div class="mt-2 container align-items-center justify-content-center d-flex">
+            <form class="" @submit.prevent="search">
+                <input class="form-control w-500" type="search" v-model="searchQuery" placeholder="Search for books..." aria-label="Search">
+              </form>
+
+            </div>
+        
+        
           <h1 class="fw-bold text-uppercase text-decoration-underline">All Books</h1>
           <table class="table table-striped table-hover">
             <thead class="table-dark">
@@ -18,7 +27,10 @@ const Explore = {
               </tr>
             </thead>
             <tbody>
-              <tr v-for="book in datas" :key="book.id">
+              <tr v-if="filteredBooks.length === 0">
+                <td colspan="9" class="text-center">No books found</td>
+              </tr>
+              <tr v-for="book in filteredBooks" :key="book.id">
                 <th scope="row">{{ book.id }}</th>
                 <td>{{ book.isbn }}</td>
                 <td>{{ book.name }}</td>
@@ -111,12 +123,35 @@ const Explore = {
   data() {
     return {
       datas: [],
-      currentRating: 0
+      currentRating: 0,
+      searchQuery: "",
     };
   },
+
+  computed: {
+    filteredBooks() {
+      return this.datas.filter(book => {
+        const name = book.name ? book.name.toLowerCase() : '';
+        const author = book.author_name ? book.author_name.toLowerCase() : '';
+        const isbn = book.isbn ? String(book.isbn).toLowerCase() : '';
+        const language = book.language ? book.language.toLowerCase() : '';
+        const section = book["sections.name"] ? book["sections.name"].toLowerCase() : '';
+  
+        return (
+          name.includes(this.searchQuery.toLowerCase()) ||
+          author.includes(this.searchQuery.toLowerCase()) ||
+          language.includes(this.searchQuery.toLowerCase()) ||
+          section.includes(this.searchQuery.toLowerCase()) ||
+          isbn.includes(this.searchQuery.toLowerCase())
+        );
+      });
+    }
+  },
+
   mounted() {
     this.get_explore();
   },
+
   methods: {
 
     selectRating(rating) {
