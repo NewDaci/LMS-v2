@@ -101,6 +101,7 @@ The following technologies and tools are used in order to develop this website:
 ```zsh
 $ tree
 .
+├── api_endpoints.txt
 ├── app.py
 ├── beat.sh
 ├── book_report.csv
@@ -113,40 +114,26 @@ $ tree
 │   │   ├── enrolls.py
 │   │   ├── issuebook.py
 │   │   ├── profile.py
-│   │   ├── __pycache__
-│   │   │   ├── admin.cpython-310.pyc
-│   │   │   ├── book_api.cpython-310.pyc
-│   │   │   ├── enrolls.cpython-310.pyc
-│   │   │   ├── index.cpython-310.pyc
-│   │   │   ├── issuebook.cpython-310.pyc
-│   │   │   ├── profile.cpython-310.pyc
-│   │   │   ├── requests.cpython-310.pyc
-│   │   │   ├── section_api.cpython-310.pyc
-│   │   │   ├── section.cpython-310.pyc
-│   │   │   ├── user_api.cpython-310.pyc
-│   │   │   └── user.cpython-310.pyc
 │   │   ├── requests.py
 │   │   ├── section_api.py
 │   │   ├── section.py
 │   │   └── user.py
+│   ├── books.py
 │   ├── jobs
 │   │   ├── mail.py
-│   │   ├── __pycache__
-│   │   │   ├── mail.cpython-310.pyc
-│   │   │   ├── tasks.cpython-310.pyc
-│   │   │   └── workers.cpython-310.pyc
 │   │   ├── tasks.py
 │   │   └── workers.py
-│   ├── __pycache__
-│   │   ├── books.cpython-310.pyc
-│   │   ├── jot.cpython-310.pyc
-│   │   └── rbac.cpython-310.pyc
 │   └── rbac.py
+├── ER.pdf
+├── ERRRR.png
 ├── instance
 │   └── books.sqlite3
 ├── issue_report.csv
+├── Mad-2 Project Report - Google Docs.pdf
+├── mad2 report.docx
 ├── mad2report.pdf
 ├── mailhog.sh
+├── mermaid-diagram-2024-08-07-230949.png
 ├── migrations
 │   ├── alembic.ini
 │   ├── env.py
@@ -165,14 +152,19 @@ $ tree
 │           ├── 9c28125a2896_.cpython-310.pyc
 │           └── e36e289a5b19_.cpython-310.pyc
 ├── models
-│   ├── model.py
-│   └── __pycache__
-│       └── model.cpython-310.pyc
-├── __pycache__
-│   ├── app.cpython-310.pyc
-│   └── celery_config.cpython-310.pyc
+│   └── model.py
+├── proj_struct.md
 ├── Readme.md
 ├── requirements.txt
+├── screenshots
+│   ├── screen1.png
+│   ├── screen2.png
+│   ├── screen3.png
+│   ├── screen4.png
+│   ├── screen5.png
+│   ├── screen6.png
+│   ├── screen7.png
+│   └── screen8.png
 ├── static
 │   ├── components
 │   │   ├── Footer.js
@@ -236,17 +228,8 @@ $ tree
 ├── user_report.csv
 └── worker.sh
 ```
-21 directories, 113 files
+18 directories, 109 files
 
-
-
-
-
-# Video
-- ```https://drive.google.com/file/d/1PkFru_y1Jb-TIRfNKdrwNj2mbwkmsMNH/view?usp=sharing```
-
-# Project URL
-- ```https://drive.google.com/file/d/1h_Oqbixp8FYjuZEjEZo62zrbyVUghZB4/view?usp=sharing```
-
+- Deployed using AWS EB.
 # Documentation
 Ranjeet Sharma (21f2001119)
