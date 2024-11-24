@@ -230,6 +230,6 @@ $ tree
 ```
 18 directories, 109 files
 
-- Deployed using AWS EB.
+## Deployed using AWS EC2 Instance.
 # Documentation
 Ranjeet Sharma (21f2001119)
