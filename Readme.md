@@ -232,4 +232,4 @@ $ tree
 
 ## Deployed using AWS EC2 Instance.
 # Documentation
-Ranjeet Sharma (21f2001119)
+Ranjeet Sharma (21f2001119@ds.study.iitm.ac.in)
