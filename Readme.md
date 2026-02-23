@@ -2,7 +2,7 @@
 
 # Website Live at
 ```
-http://65.1.100.5:80
+https://lms-v2-mqvf.onrender.com
 ```
 
 # About Project
